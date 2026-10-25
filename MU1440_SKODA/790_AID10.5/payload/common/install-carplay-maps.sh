@@ -301,6 +301,13 @@ cp "$SUPERVISOR" "$NEW/carplay-cluster-supervisor" || fail "SUPERVISOR_COPY_FAIL
 cp "$SEC" "$NEW/libcarplay-security-bridge.so" || fail "SESSION_BRIDGE_COPY_FAILED"
 cp "$PAIR_HELPER" "$NEW/security_bridge/carplay-pairing-helper" || fail "PAIR_HELPER_COPY_FAILED"
 cp "$PAIR_CORE" "$NEW/security_bridge/libCarPlayPairingCore.so" || fail "PAIR_CORE_COPY_FAILED"
+# Per-VC-view geometry shim: only for MU1440/790, whose control jar tracks the VC view.
+VCLAYOUT_LIB="$PAYLOAD/common/libcpmap-vclayout.so"
+if [ "$EXPECTED_MU:$INSTRUMENT" = "MU1440:790" ] && [ -s "$VCLAYOUT_LIB" ]; then
+    cp "$VCLAYOUT_LIB" "$NEW/libcpmap-vclayout.so" || fail "VCLAYOUT_COPY_FAILED"
+    chmod 644 "$NEW/libcpmap-vclayout.so"
+    echo "CPMAP_VCLAYOUT=INSTALLED"
+fi
 echo "$VERSION" > "$NEW/VERSION"
 echo "$DETECTED_MU/$INSTRUMENT" > "$NEW/PROFILE"
 touch "$NEW/CLUSTER_AUTO_ENABLE"
@@ -366,6 +373,17 @@ if [ "$NAV_INSTALL" = yes ]; then
     [ `active_reference_count 'CarPlayNavigationPatch.jar'` -eq 1 ] || { rollback_commit; fail "NAVIGATION_CLASSPATH_VERIFY_FAILED"; }
 fi
 rm -rf "$OLD" "$STAGE" 2>/dev/null
+
+# The VC never reports its view, so the control jar counts View presses. Installing anchors the
+# count: the patch is installed with the cockpit in view 0 (classic dials).
+if [ "$EXPECTED_MU:$INSTRUMENT" = "MU1440:790" ] && [ -d "$MMX/mnt/ota" ]; then
+    if echo 0 > "$MMX/mnt/ota/cpmap-vclayout" 2>/dev/null; then
+        echo "CPMAP_VC_VIEW=0"
+    else
+        echo "CPMAP_VC_VIEW=RESET_FAILED"
+    fi
+    rm -f "$MMX/ramdisk/cpmap-vclayout" 2>/dev/null
+fi
 
 sync 2>/dev/null || true
 echo "CPMAP_PROFILE=$DETECTED_MU/$INSTRUMENT"

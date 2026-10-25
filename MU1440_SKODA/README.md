@@ -1,11 +1,10 @@
-# MU1440 Skoda standalone profile
+# MU1440 Škoda profile
 
-Exact firmware identity: `/ifs/lsd.jxe` = **55,840,933 bytes**.
+Exact firmware identity: `MHI2_ER_SKG13_P4526`, `/ifs/lsd.jxe` = **55,840,933 bytes**.
 
-| Cluster | Profile files | Display baseline |
+| Cluster | Files | CarPlay in the cockpit |
 | --- | --- | --- |
-| 790 AID 10.5 | [`790_AID10.5`](./790_AID10.5/) | 40 fps, non-navigation centered, navigation right |
+| 790 AID 10.5 | [`790_AID10.5`](./790_AID10.5/) | map + turn card, own layout per cockpit view, logs off |
 
-MU1440 is supported only with the Skoda 790 AID 10.5 profile. This directory contains only the CarPlay Maps VC project files, not a complete MQB or M.I.B. Toolbox distribution.
-
-MU1440 仅支持 Škoda 790 AID 10.5。目录内仅为 CarPlay Maps VC 独立项目文件，不含完整工具箱。
+MU1440 is supported only with the 790 AID 10.5 cockpit. This directory holds only the CarPlay Maps VC files, not a
+complete MQB or M.I.B. Toolbox; see the [main README](../README.md) for installation.

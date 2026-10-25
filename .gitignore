@@ -1,4 +1,2 @@
-src/steering-mu1440/build/
-src/toolbox/build/
-release-assets/
+build/
 __pycache__/

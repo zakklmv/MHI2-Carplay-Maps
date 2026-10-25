@@ -1,0 +1,49 @@
+###########################################################################
+# CarPlay Maps VC
+# Free open-source project by omonob (QCDWJ)
+###########################################################################
+screen carplay-maps-vc Customization
+
+keyValue
+    value   String sys 0x00000000 0
+    label   "CarPlay Maps VC"
+    poll    0
+
+keyValue
+    value   String sys 0x00000000 0
+    label   "Free open-source project"
+    poll    0
+
+keyValue
+    value   String sys 0x00000000 0
+    label   "Author: omonob (QCDWJ)"
+    poll    0
+
+keyValue
+    value   String sys 0x00000000 0
+    label   "Map video only - no music, nav text or animation"
+    poll    0
+
+script
+    value   sys 1 0x0100 "/eso/hmi/engdefs/scripts/mqb/cpmap_install_791.sh"
+    label   "Install 791 AID 12.3 (AUTO MU)"
+
+script
+    value   sys 1 0x0100 "/eso/hmi/engdefs/scripts/mqb/cpmap_install_790.sh"
+    label   "Install 790 AID 10.5 (AUTO MU)"
+
+script
+    value   sys 1 0x0100 "/eso/hmi/engdefs/scripts/mqb/cpmap_status.sh"
+    label   "Show CarPlay Maps VC status"
+
+script
+    value   sys 1 0x0100 "/eso/hmi/engdefs/scripts/mqb/cpmap_restore.sh"
+    label   "Restore factory files"
+
+script
+    value   sys 1 0x0100 "/eso/hmi/engdefs/scripts/mqb/cpmap_diag_collect.sh"
+    label   "Collect VC diagnostics to SD"
+
+script
+    value   sys 1 0x0100 "/eso/hmi/engdefs/scripts/mqb/cpmap_debug_once.sh"
+    label   "Enable VC debug logs (next start only)"
